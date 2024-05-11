@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -47,10 +48,21 @@ export default function Home() {
             </div>
           </form>
         </CardContent>
-        <CardFooter className="">
+        <CardFooter className="flex flex-col gap-y-4">
           <Button className="bg-[#A9A69A] hover:bg-gray-500 w-full">
             Login
-          </Button>{" "}
+          </Button>
+          <div className="flex items-center justify-center flex-col">
+            <span className="text-gray-300 text-sm text-center">
+              Don&apos;t have an account?
+            </span>
+            <Link
+              href="/create_account"
+              className="font-semibold text-sm underline underline-offset-2 text-[#A9A69A] ms-1 hover:text-gray-500"
+            >
+              Create account
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </main>
