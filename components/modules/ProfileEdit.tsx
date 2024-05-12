@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { BASE_URL, client } from "@/context/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -28,10 +29,10 @@ const ProfileEdit = ({
   const router = useRouter();
   const [formInput, setFormInput] = useState({ name: "" });
 
-  const { mutate: updateProfile } = useMutation({
+  const { mutate: updateProfile, isPending } = useMutation({
     mutationFn: (value: string) => {
       console.log("values");
-      return client.patch(`${BASE_URL}/users/${id}`, { name: value });
+      return client.patch(`${BASE_URL}/users/${id}`, { name: value.trim() });
     },
     onSuccess(data: AxiosResponse<any, any>) {
       console.log(data.data);
@@ -96,7 +97,16 @@ const ProfileEdit = ({
             className="bg-[#cbb55d] hover:bg-gray-300 w-full"
             onClick={handleSubmit}
           >
-            Save changes
+            {isPending ? (
+              <Image
+                src="/loadingSpinner.svg"
+                alt="loading spinner"
+                width={25}
+                height={25}
+              />
+            ) : (
+              "Save changes"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

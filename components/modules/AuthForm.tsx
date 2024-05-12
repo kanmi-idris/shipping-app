@@ -45,7 +45,7 @@ const AuthForm = ({
 
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const { id, value } = e.target;
-    setFormInput((prevState: any) => ({ ...prevState, [id]: value }));
+    setFormInput((prevState: any) => ({ ...prevState, [id]: value.trim() }));
   };
 
   return (
@@ -87,7 +87,6 @@ const AuthForm = ({
               <Image
                 src="/loadingSpinner.svg"
                 alt="loading spinner"
-                className="relative left-1/2"
                 width={25}
                 height={25}
               />
