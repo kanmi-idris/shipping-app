@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import db, cursor
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://shipping-app.vercel.app"}})
 
 
 # account creation api
