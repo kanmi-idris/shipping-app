@@ -11,33 +11,8 @@ TABLES['users'] = (
     "id INT NOT NULL AUTO_INCREMENT,"
     "name VARCHAR(100),"
     "email VARCHAR(100) UNIQUE,"
-    "password VARCHAR(100),"
+    "password VARCHAR(255),"
     "PRIMARY KEY (`id`)"
-    ") ENGINE=InnoDB"
-)
-TABLES['tracking'] = (
-    "CREATE TABLE `tracking` ("
-    "id INT NOT NULL AUTO_INCREMENT,"
-    "user_id INT NOT NULL,"
-    "description VARCHAR(100),"
-    "quantity INT,"
-    "expectedDeliveryDate DATE,"
-    "status VARCHAR(100),"
-    "trackingNumber VARCHAR(100) UNIQUE,"
-    "PRIMARY KEY (`id`),"
-    "FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)"
-    ") ENGINE=InnoDB"
-)
-TABLES['deliveries'] = (
-    "CREATE TABLE `deliveries` ("
-    "id INT NOT NULL AUTO_INCREMENT,"
-    "user_id INT NOT NULL,"
-    "description VARCHAR(100),"
-    "quantity INT,"
-    "status VARCHAR(100),"
-    "dateReceived DATE,"
-    "PRIMARY KEY (`id`),"
-    "FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)"
     ") ENGINE=InnoDB"
 )
 
@@ -68,11 +43,6 @@ def create_tables():
                 print('table {} already exists'.format(table_name))
             else:
                 print(err.msg)
-# def create_user(name, email, password):
-#     query = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)"
-#     cursor.execute(query, (name, email, password))
-#     # cnx .commit()
-#     cursor.close()
 
 
 create_database()

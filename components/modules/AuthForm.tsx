@@ -10,8 +10,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "../ui/button";
+
+const BASE_URL = "http://localhost:5000";
+const client = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 const AuthForm = ({
   heading,
@@ -22,9 +34,46 @@ const AuthForm = ({
   linkHref,
   otherActionText,
 }: AuthFormProps) => {
-  const mutationFn = () => {
-    console.log("mutated");
+  const router = useRouter();
+  const initialState = fields.reduce((state, field) => {
+    return { ...state, [field.id]: "" };
+  }, {});
+
+  const [error, setError] = useState("");
+  const [formInput, setFormInput] = useState<AuthFormProps>(
+    initialState as AuthFormProps
+  );
+
+  const { mutate } = useMutation({
+    mutationFn: (values: AuthFormProps) => {
+      console.log("values");
+      return client.post(
+        heading === "login"
+          ? `${BASE_URL}/login`
+          : `${BASE_URL}/create_account`,
+        values
+      );
+    },
+    onSuccess(data: AxiosResponse<any, any>) {
+      console.log(data);
+      router.replace("/home");
+    },
+    onError(error: AxiosError<any, any>) {
+      console.log(error);
+      setError(error.response?.data.message ?? error.message);
+    },
+  });
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    mutate(formInput);
   };
+
+  const handleChange = (e: { target: { id: any; value: any } }) => {
+    const { id, value } = e.target;
+    setFormInput((prevState: any) => ({ ...prevState, [id]: value }));
+  };
+
   return (
     <main className="flex items-center justify-center h-screen bg-black ">
       <Card className="w-[20rem] bg-[#32312C] text-white border-none">
@@ -46,6 +95,7 @@ const AuthForm = ({
                     id={id}
                     type={type}
                     placeholder={placeholder}
+                    onChange={handleChange}
                     className="bg-gray-900 text-white placeholder-gray-500 border-none text-xs"
                   />
                 </div>
@@ -54,23 +104,13 @@ const AuthForm = ({
           </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-y-4">
-          {/* {mutationFn ? (
-            <Button
-              className="bg-[#cbb55d] hover:bg-gray-500 w-full"
-              onClick={mutationFn}
-            >
-              {buttonText}
-            </Button>
-          ) : ( */}
-          <Link href="/home" className="w-full">
-            <Button
-              className="bg-[#cbb55d] hover:bg-gray-500 w-full"
-              onClick={mutationFn}
-            >
-              {buttonText}
-            </Button>
-          </Link>
-          {/* )} */}
+          <p className="text-red-600 text-xs font-medium">{error}</p>
+          <Button
+            className="bg-[#cbb55d] hover:bg-gray-500 w-full"
+            onClick={handleSubmit}
+          >
+            {buttonText}
+          </Button>
           <div className="flex items-center justify-center flex-col">
             <span className="text-gray-300 text-sm text-center">
               {linkText}

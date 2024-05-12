@@ -10,7 +10,7 @@ interface AuthFieldProps {
 }
 
 export interface AuthFormProps {
-  heading: string;
+  heading: "login" | "create account";
   subHeading: string;
   fields: AuthFieldProps[];
   buttonText: string;
