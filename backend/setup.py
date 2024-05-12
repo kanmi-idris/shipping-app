@@ -19,6 +19,7 @@ TABLES['users'] = (
 
 def create_database():
     try:
+        cursor.execute("DROP DATABASE {}".format(DB_NAME))
         cursor.execute(
             "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8mb4'".format(DB_NAME))
         print("Database {} created!".format(DB_NAME))
