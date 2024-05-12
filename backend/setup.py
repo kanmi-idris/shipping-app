@@ -19,7 +19,6 @@ TABLES['users'] = (
 
 def create_database():
     try:
-        cursor.execute("DROP DATABASE {}".format(DB_NAME))
         cursor.execute(
             "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8mb4'".format(DB_NAME))
         print("Database {} created!".format(DB_NAME))
@@ -27,22 +26,26 @@ def create_database():
         if err.errno == errorcode.ER_DB_CREATE_EXISTS:
             print("Database {} already exists.".format(DB_NAME))
         else:
-            print(err)
+            print("Failed creating database: {}".format(err))
+        exit(1)
 
 
 def create_tables():
-    cursor.execute("USE {}".format(DB_NAME))
-
-    for table_name in TABLES:
-        table_details = TABLES[table_name]
-        try:
-            print("creating table ({}) ".format(table_name), end="")
-            cursor.execute(table_details)
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-                print('table {} already exists'.format(table_name))
-            else:
-                print(err.msg)
+    try:
+        cursor.execute("USE {}".format(DB_NAME))
+        for table_name in TABLES:
+            table_details = TABLES[table_name]
+            try:
+                print("Creating table ({}) ".format(table_name), end="")
+                cursor.execute(table_details)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                    print('Table {} already exists.'.format(table_name))
+                else:
+                    print(err.msg)
+    except mysql.connector.Error as err:
+        print("Failed using database: {}".format(err))
+        exit(1)
 
 
 create_database()
