@@ -47,17 +47,16 @@ const ProfileEdit = () => {
             </Label>
             <Input
               id="name"
-              value="Pedro Duarte"
               className="bg-gray-700 text-white placeholder-gray-500 border-none text-xs"
             />
           </div>
           <div>
-            <Label htmlFor="email" className="text-gray-300">
-              Email
+            <Label htmlFor="password" className="text-gray-300">
+              Password
             </Label>
             <Input
-              id="email"
-              value="@peduarte"
+              id="password"
+              type="password"
               className="bg-gray-700 text-white placeholder-gray-500 border-none text-xs"
             />
           </div>

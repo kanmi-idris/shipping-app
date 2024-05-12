@@ -54,12 +54,23 @@ const AuthForm = ({
           </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-y-4">
-          <Button
-            className="bg-[#cbb55d] hover:bg-gray-500 w-full"
-            onClick={mutationFn}
-          >
-            {buttonText}
-          </Button>
+          {/* {mutationFn ? (
+            <Button
+              className="bg-[#cbb55d] hover:bg-gray-500 w-full"
+              onClick={mutationFn}
+            >
+              {buttonText}
+            </Button>
+          ) : ( */}
+          <Link href="/home" className="w-full">
+            <Button
+              className="bg-[#cbb55d] hover:bg-gray-500 w-full"
+              onClick={mutationFn}
+            >
+              {buttonText}
+            </Button>
+          </Link>
+          {/* )} */}
           <div className="flex items-center justify-center flex-col">
             <span className="text-gray-300 text-sm text-center">
               {linkText}
