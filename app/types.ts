@@ -33,3 +33,11 @@ export interface Item {
   expectedDeliveryDate?: string;
   trackingNumber?: string;
 }
+
+export interface AuthContextState {
+  authData: { id: number; name: string } | null;
+  error: string;
+  login: (formData: AuthFormProps) => Promise<void>;
+  createAccount: (formData: AuthFormProps) => Promise<void>;
+  mutating: boolean;
+}

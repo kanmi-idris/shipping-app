@@ -1,23 +1,27 @@
+"use client";
 import "@fontsource/montserrat"; // Import Montserrat font
-import type { Metadata } from "next";
 import "./globals.css";
 
+import { AuthProvider } from "@/context/useAuth";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RootLayoutProps } from "./types";
 
-export const metadata: Metadata = {
-  title: "Shipping App",
-  description: "Olasunkanmi Idris Technical Assessment",
-};
 export default function RootLayout({ children }: RootLayoutProps) {
+  const queryClient = new QueryClient();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body
-        className="min-h-screen bg-background font-sans antialiased"
-        style={{ fontFamily: "'Montserrat', sans-serif" }}
-      >
-        {children}
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <html lang="en" suppressHydrationWarning>
+          <head />
+          <body
+            className="min-h-screen bg-background font-sans antialiased"
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
+          >
+            {children}
+          </body>
+        </html>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
