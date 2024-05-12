@@ -5,7 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
-export const BASE_URL = "http://13.49.20.202";
+export const BASE_URL = "https://api.dacurate.com/";
 export const client = axios.create({
   baseURL: BASE_URL,
   headers: {
